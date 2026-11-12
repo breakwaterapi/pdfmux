@@ -76,7 +76,7 @@ class MistralOCRExtractor:
                 "Get a key at https://console.mistral.ai/ and export it."
             )
 
-        from mistralai import Mistral
+        from mistralai.client import Mistral
 
         self._client = Mistral(api_key=api_key)
         return self._client
