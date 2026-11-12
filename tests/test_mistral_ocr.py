@@ -109,8 +109,10 @@ class TestMistralOCRExtractor:
         )
 
         fake_module = MagicMock()
-        fake_module.Mistral = MagicMock(return_value=fake_client)
+        fake_client_module = MagicMock()
+        fake_client_module.Mistral = MagicMock(return_value=fake_client)
         monkeypatch.setitem(sys.modules, "mistralai", fake_module)
+        monkeypatch.setitem(sys.modules, "mistralai.client", fake_client_module)
 
         ext = MistralOCRExtractor()
         results = list(ext.extract(digital_pdf))
@@ -154,8 +156,10 @@ class TestMistralOCRExtractor:
         )
 
         fake_module = MagicMock()
-        fake_module.Mistral = MagicMock(return_value=fake_client)
+        fake_client_module = MagicMock()
+        fake_client_module.Mistral = MagicMock(return_value=fake_client)
         monkeypatch.setitem(sys.modules, "mistralai", fake_module)
+        monkeypatch.setitem(sys.modules, "mistralai.client", fake_client_module)
 
         ext = MistralOCRExtractor()
         results = list(ext.extract(digital_pdf, pages=[1]))
@@ -173,8 +177,10 @@ class TestMistralOCRExtractor:
         fake_client.files.upload.side_effect = RuntimeError("rate limit hit")
 
         fake_module = MagicMock()
-        fake_module.Mistral = MagicMock(return_value=fake_client)
+        fake_client_module = MagicMock()
+        fake_client_module.Mistral = MagicMock(return_value=fake_client)
         monkeypatch.setitem(sys.modules, "mistralai", fake_module)
+        monkeypatch.setitem(sys.modules, "mistralai.client", fake_client_module)
 
         ext = MistralOCRExtractor()
         with pytest.raises(ExtractionError, match="Mistral upload failed"):
